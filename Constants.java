@@ -37,27 +37,23 @@ public class Constants
     public static final int MOVES_TIME_LIMIT = 140;
     public static final int MOVES_LOOP_LIMIT = MOVES_TIME_LIMIT / LOOP_TIME;
 
-    public static final int BOARD_COLS = 10;
-    public static final int BOARD_ROWS = 20;
-    public static final int BUFFER_ZONE = 4;
-    public static final int TOTAL_BOARD_ROWS = BOARD_ROWS + BUFFER_ZONE;
+    public static final int BOARD_COLS = 8;
+    public static final int BOARD_ROWS = 8;
+    public static final int TOTAL_BOARD_ROWS = BOARD_ROWS;
     public static final int QUEUE_SIZE = 3;
     
-    public static final int PIECE_SIZE = 40;
+    public static final int PIECE_SIZE = 60;
     public static final int PIECE_EDGE_WIDTH = PIECE_SIZE / 7;
     public static final int BOARD_WIDTH = BOARD_COLS * PIECE_SIZE;
     public static final int BOARD_HEIGHT = BOARD_ROWS * PIECE_SIZE;
 
     public static final int GAMEOVER_HEIGHT = 200;
-    public static final int GAMEOVER_WIDTH = 400;
+    public static final int GAMEOVER_WIDTH = 300;
 
     public static final int HEADER_HEIGHT = 30;
     public static final int PIECE_PANEL_WIDTH = 200;
-    public static final int SCORE_PANEL_HEIGHT = 80;
-    public static final int HOLD_PANEL_HEIGHT = 5 * PIECE_SIZE;
-    public static final int QUEUE_PANEL_HEIGHT = BOARD_HEIGHT - SCORE_PANEL_HEIGHT - HOLD_PANEL_HEIGHT;
-    public static final int FRAME_WIDTH = BOARD_WIDTH + PIECE_PANEL_WIDTH;
-    public static final int FRAME_HEIGHT = BOARD_HEIGHT;
+    public static final int SCORE_PANEL_HEIGHT = 40;
+    public static final int QUEUE_PANEL_HEIGHT = 100;
     
     public static final  Color BACKGROUND_COLOR = new Color((int)0x212121);
     public static final  Color ACCENT_COLOR = new Color((int)0x373737);

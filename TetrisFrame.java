@@ -6,7 +6,6 @@ import java.util.HashMap;
 public class TetrisFrame extends JFrame {
     private GamePanel gamePanel; //Declare the gamePanel
 
-    private Timer timer; //Declare to timer
 
     //TetrisFrame constructor
     public TetrisFrame() {
@@ -53,29 +52,9 @@ public class TetrisFrame extends JFrame {
             }
         );
 
-        //Set up a Timer to run the game loop
-        //Creates a new timer object with a delay equal to LOOP_TIME which is the time it takes for one loop
-        timer = new Timer(Constants.LOOP_TIME, new ActionListener() {
-                //Overrides the actionPerformed method which is called every time the LOOP_TIME elapses
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    //Every loop, key times are incremented as long as the key is still pressed
-                    for(int key : Constants.KEY_LIST) {
-                        if(keyPressed.get(key)) keyTimes.replace(key,1 + keyTimes.get(key)); //If the key is still being held, increase the time
-                        else keyTimes.replace(key, 0); //If the key has been released then reset the timer to 0
-                    }
 
-                    //Runs the gamePanel's run method and passes in the map of key times
-                    //If the gamePanel fails to return true, it means the game is over and the gameOver method is called
-                    if(!gamePanel.run(keyTimes)) gameOver();
-                }
-            }
-        );
         //Set the frame focusable for KeyListener, allowing it to accept key inputs when in focus
         setFocusable(true);
-
-        //Start the timer
-        timer.start();
 
         //Set the frame visible
         setVisible(true);
@@ -85,16 +64,13 @@ public class TetrisFrame extends JFrame {
     private void gameOver(){
         int[] scores = gamePanel.getScores(); //Gets an array of the scores from the gamePanel
         new GameOver(this, scores[0], scores[1], scores[2]); //Creates the GameOver object which displays the scores and end options
-        timer.stop(); //Stops the game timer to stop calls to this method
     }
 
     //Replaces old gamePanel with a new instance, then restarts the timer
     public void startNewGame(){
-        gamePanel.destroyBoard();
         gamePanel = new GamePanel(); //Replaces the existing gamePanel object with the new one
         this.add(gamePanel); //Re-adds the new gamePanel object to the frame
         pack(); //Ensures that the new gamePanel is at its desired size and removes old panel
-        timer.start(); //Restarts the game loop
     }
 
     //Main method

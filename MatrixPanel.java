@@ -8,7 +8,7 @@ public class MatrixPanel extends JPanel {
     private int[][] board = new int[Constants.BOARD_COLS][Constants.TOTAL_BOARD_ROWS];
     
     //Create object variable to hold the current piece in hand
-    private Tetromino tetromino;
+    private Block tetromino;
 
     //Create a counter to count the number of gameLoops elapsed since the last drop
     private int loopsSinceDropped;
@@ -59,11 +59,11 @@ public class MatrixPanel extends JPanel {
         return moveTimer > Constants.MOVES_LOOP_LIMIT;
     }
 
-    public Tetromino getPiece() {
+    public Block getPiece() {
         return this.tetromino;
     }
 
-    public void setPiece(Tetromino tetromino) {
+    public void setPiece(Block tetromino) {
         this.tetromino = tetromino;
         this.tetromino.setBoardRelative(true);
         this.tetromino.setBoardCoords(5, -2);
@@ -116,7 +116,7 @@ public class MatrixPanel extends JPanel {
 
     public boolean identifyRows(){
         boolean rowsToClear = false;
-        for (int indexY = Constants.TOTAL_BOARD_ROWS - 1; indexY >= Constants.BUFFER_ZONE; indexY--) {
+        for (int indexY = Constants.TOTAL_BOARD_ROWS - 1; indexY >= 0; indexY--) {
             boolean rowFull = true;
             boolean rowEmpty = true;
             for (int indexX = 0; indexX < Constants.BOARD_COLS; indexX++) {
@@ -134,7 +134,7 @@ public class MatrixPanel extends JPanel {
 
     public int clearRows() {
         int lines = 0;
-        for (int indexY = Constants.BUFFER_ZONE; indexY < Constants.TOTAL_BOARD_ROWS; indexY++) {
+        for (int indexY = 0; indexY < Constants.TOTAL_BOARD_ROWS; indexY++) {
             boolean rowFull = true;
             for (int indexX = 0; indexX < Constants.BOARD_COLS; indexX++) {
                 if (board[indexX][indexY] == 0) {
@@ -177,7 +177,7 @@ public class MatrixPanel extends JPanel {
             for(int indexY = 0; indexY < Constants.BOARD_ROWS; indexY++) {
                 Draw.square(indexX * Constants.PIECE_SIZE, 
                             indexY * Constants.PIECE_SIZE, 
-                            board[indexX][indexY + Constants.BUFFER_ZONE],
+                            board[indexX][indexY],
                             g);
             }   
         }

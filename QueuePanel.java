@@ -4,7 +4,7 @@ import java.awt.*;
 public class QueuePanel extends JPanel {
     private JLabel pieceLabel;
     private PieceBag pieceBag;
-    private Tetromino[] currentQueue;
+    private Block[] currentQueue;
     
     public QueuePanel() {
         // Initialize components, set layout, etc.
@@ -22,17 +22,17 @@ public class QueuePanel extends JPanel {
     }
     
     private void initializeQueue() {
-        currentQueue = new Tetromino[Constants.QUEUE_SIZE];
-        for (int i = 0; i < currentQueue.length; i++) currentQueue[i] = new Tetromino(pieceBag.pullNewPiece(), 0, 0, false);
+        currentQueue = new Block[Constants.QUEUE_SIZE];
+        for (int i = 0; i < currentQueue.length; i++) currentQueue[i] = new Block(pieceBag.pullNewPiece(), 0, 0, false);
     }
     
-    public Tetromino pullFromQueue() {
+    public Block pullFromQueue() {
         //pulls the first piece in the queue
-        Tetromino pulledPiece = currentQueue[0];
+        Block pulledPiece = currentQueue[0];
         //shifts every piece down one in the queue
         for (int i = 0; i < currentQueue.length - 1; i++) currentQueue[i] = currentQueue[i + 1];
         //pulls a new piece from the bag to store in the last slot of the queue
-        currentQueue[currentQueue.length - 1] = new Tetromino(pieceBag.pullNewPiece(), 0, 0, false);
+        currentQueue[currentQueue.length - 1] = new Block(pieceBag.pullNewPiece(), 0, 0, false);
         this.update();
         //return the first piece pulled from the queue
         return pulledPiece;
@@ -45,7 +45,7 @@ public class QueuePanel extends JPanel {
         //draws the header section
         Draw.header(g);
         //creates a temporary reference variable for the current tetromino being drawn
-        Tetromino tetromino;
+        Block tetromino;
         //indexes through the currentQueue array and draws each piece
         for(int i = 0; i < 3; i++) {
             //get the tetromino as a given position in the queue
