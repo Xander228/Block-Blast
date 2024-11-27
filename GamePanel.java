@@ -22,8 +22,8 @@ public class GamePanel extends JPanel {
         queuePanel = new QueuePanel();
 
         //Set up the panel properties
-        setBorder(BorderFactory.createMatteBorder(10, 10, 10, 10, Constants.PRIMARY_COLOR)); //Add a border around the frame
-        setBackground(Constants.PRIMARY_COLOR); //Set the background color of the panel
+        setBorder(BorderFactory.createMatteBorder(10, 10, 10, 10, Constants.BACKGROUND_COLOR)); //Add a border around the frame
+        setBackground(Constants.BACKGROUND_COLOR); //Set the background color of the panel
         setLayout(new BorderLayout(10, 10)); //Sets the edge offset of member panels to properly space them
 
         // Add the matrixPanel and piecePanel to the panel

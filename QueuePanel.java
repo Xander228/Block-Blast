@@ -2,19 +2,15 @@ import javax.swing.*;
 import java.awt.*;
 
 public class QueuePanel extends JPanel {
-    private JLabel pieceLabel;
     private PieceBag pieceBag;
     private Block[] currentQueue;
     
     public QueuePanel() {
         // Initialize components, set layout, etc.
-        setPreferredSize( new Dimension(Constants.PIECE_PANEL_WIDTH, 
+        setPreferredSize( new Dimension(Constants.BOARD_WIDTH,
                                         Constants.QUEUE_PANEL_HEIGHT));
-        setBackground(Constants.COLORS[0][0]);
-        pieceLabel = new JLabel("QUEUE");
-        pieceLabel.setFont(new Font("Arial", Font.BOLD, 18));
-        pieceLabel.setForeground(Constants.BACKGROUND_COLOR);
-        add(pieceLabel);
+        setBackground(Constants.BACKGROUND_COLOR);
+
         
         pieceBag = new PieceBag();
         initializeQueue();
@@ -23,7 +19,12 @@ public class QueuePanel extends JPanel {
     
     private void initializeQueue() {
         currentQueue = new Block[Constants.QUEUE_SIZE];
-        for (int i = 0; i < currentQueue.length; i++) currentQueue[i] = new Block(pieceBag.pullNewPiece(), 0, 0, false);
+
+        for (int i = 0; i < currentQueue.length; i++) {
+            int color = (int)(Math.random() * 7);
+            int rotation = (int)(Math.random() * 4);
+            currentQueue[i] = new Block(pieceBag.pullNewPiece(), 0, 0, rotation, color, false);
+        }
     }
     
     public Block pullFromQueue() {
@@ -32,7 +33,9 @@ public class QueuePanel extends JPanel {
         //shifts every piece down one in the queue
         for (int i = 0; i < currentQueue.length - 1; i++) currentQueue[i] = currentQueue[i + 1];
         //pulls a new piece from the bag to store in the last slot of the queue
-        currentQueue[currentQueue.length - 1] = new Block(pieceBag.pullNewPiece(), 0, 0, false);
+        int color = (int)(Math.random() * 7);
+        int rotation = (int)(Math.random() * 4);
+        currentQueue[currentQueue.length - 1] = new Block(pieceBag.pullNewPiece(), 0, 0, rotation, color, false);
         this.update();
         //return the first piece pulled from the queue
         return pulledPiece;
@@ -41,9 +44,7 @@ public class QueuePanel extends JPanel {
     @Override 
     public void paintComponent(Graphics g) {
         //runs code inherited from the parent class required to render the panel
-        super.paintComponent(g); 
-        //draws the header section
-        Draw.header(g);
+        super.paintComponent(g);
         //creates a temporary reference variable for the current tetromino being drawn
         Block tetromino;
         //indexes through the currentQueue array and draws each piece
@@ -51,7 +52,7 @@ public class QueuePanel extends JPanel {
             //get the tetromino as a given position in the queue
             tetromino = currentQueue[i];
             //set the coordinates of that piece based on its place in queue
-            tetromino.setPixelCoords(Constants.PIECE_PANEL_WIDTH / 2, (int)(Constants.HOLD_PANEL_HEIGHT * 0.55) + i * 4 * Constants.PIECE_SIZE);
+            tetromino.setPixelCoords(Constants.BOARD_WIDTH / 2, (int)i * 4 * Constants.PIECE_SIZE);
             //draw the tetromino
             tetromino.draw(g);
         }

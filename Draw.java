@@ -3,36 +3,29 @@ import java.awt.*;
 
 public class Draw
 {
-    public static void header(Graphics g){
-        g.setColor(Constants.PRIMARY_COLOR);
-        g.fillRect(0, 0, Constants.PIECE_PANEL_WIDTH, Constants.HEADER_HEIGHT);
-        for(int i = 0; i <= Constants.HEADER_HEIGHT / 2; i++) {
-            g.drawLine(i, Constants.HEADER_HEIGHT, 0, Constants.HEADER_HEIGHT+i);
-        }
-
-    }
-    
     public static void square(int x, int y, int color, Graphics g) {
+        int pieceEdgeWidth = Constants.PIECE_EDGE_WIDTH;
+        if(color == 0) pieceEdgeWidth /= 5;
         //draw main square
         g.setColor(Constants.COLORS[color][0]);
         g.fillRect(x, y, Constants.PIECE_SIZE, Constants.PIECE_SIZE);
         
         //draw top edge - edge 1
         g.setColor(Constants.COLORS[color][1]);
-        g.fillRect(x, y, Constants.PIECE_SIZE, Constants.PIECE_EDGE_WIDTH);
+        g.fillRect(x, y, Constants.PIECE_SIZE, pieceEdgeWidth);
         //draw bottom edge
         g.setColor(Constants.COLORS[color][2]);
-        g.fillRect(x, Constants.PIECE_SIZE - Constants.PIECE_EDGE_WIDTH + y,
-                    Constants.PIECE_SIZE, Constants.PIECE_EDGE_WIDTH);
+        g.fillRect(x, Constants.PIECE_SIZE - pieceEdgeWidth + y,
+                    Constants.PIECE_SIZE, pieceEdgeWidth);
         //draw left edge
         g.setColor(Constants.COLORS[color][3]);
-        for(int i = 0; i <= Constants.PIECE_EDGE_WIDTH; i++) {
+        for(int i = 0; i <= pieceEdgeWidth; i++) {
             g.fillRect(x + i, y + i, 1, Constants.PIECE_SIZE - (2 * i));
         }
         
         //draw right edge
         g.setColor(Constants.COLORS[color][4]);
-        for(int i = Constants.PIECE_EDGE_WIDTH; i >= 0; i--) {
+        for(int i = pieceEdgeWidth; i >= 0; i--) {
             g.fillRect(Constants.PIECE_SIZE - i + x - 1, y + i,
                     1, Constants.PIECE_SIZE - (2 * i));
         }

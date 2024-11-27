@@ -1,41 +1,7 @@
 import java.awt.*;
-import java.awt.event.KeyEvent;
 
 public class Constants
 {
-    //creates a list of Keys that we wish to listen to
-    public static final int ROTATE_CW_KEY = KeyEvent.VK_UP;
-    public static final int ROTATE_CCW_KEY = KeyEvent.VK_CONTROL;
-    public static final int DROP_KEY = KeyEvent.VK_DOWN;
-    public static final int LEFT_KEY = KeyEvent.VK_LEFT;
-    public static final int RIGHT_KEY = KeyEvent.VK_RIGHT;
-    public static final int HARD_DROP_KEY = KeyEvent.VK_SPACE;
-    public static final int HOLD_KEY = KeyEvent.VK_SHIFT;
-
-
-
-
-    public static final int[] KEY_LIST = {
-            ROTATE_CW_KEY,
-            ROTATE_CCW_KEY,
-            DROP_KEY,
-            LEFT_KEY,
-            RIGHT_KEY,
-            HARD_DROP_KEY,
-            HOLD_KEY,
-    };
-
-    public static final int LOOP_TIME = 20;
-    public static final int AUTO_MOVE_TIME = 200;
-    public static final int BASE_FALL_TIME = 1000;
-    public static final int CLEAR_TIME = 200;
-    public static final int AUTO_MOVE_LOOPS = AUTO_MOVE_TIME / LOOP_TIME;
-    public static final int CLEAR_LOOPS = CLEAR_TIME / LOOP_TIME;
-    public static final int BASE_DROP_TIME = BASE_FALL_TIME / 20;
-
-    public static final int MOVES_BEFORE_LOCK = 5;
-    public static final int MOVES_TIME_LIMIT = 140;
-    public static final int MOVES_LOOP_LIMIT = MOVES_TIME_LIMIT / LOOP_TIME;
 
     public static final int BOARD_COLS = 8;
     public static final int BOARD_ROWS = 8;
@@ -50,22 +16,18 @@ public class Constants
     public static final int GAMEOVER_HEIGHT = 200;
     public static final int GAMEOVER_WIDTH = 300;
 
-    public static final int HEADER_HEIGHT = 30;
-    public static final int PIECE_PANEL_WIDTH = 200;
     public static final int SCORE_PANEL_HEIGHT = 40;
     public static final int QUEUE_PANEL_HEIGHT = 100;
     
-    public static final  Color BACKGROUND_COLOR = new Color((int)0x212121);
+    public static final  Color BACKGROUND_COLOR = new Color((int)0x3c5394);
     public static final  Color ACCENT_COLOR = new Color((int)0x373737);
 
 
-    public static final  Color PRIMARY_COLOR = new Color((int)0x555555);
+    public static final  Color PRIMARY_COLOR = new Color((int)0xFFFFFF);
     
-    //Color[0] defines board colors
-    //Color[1 - 7] define piece colors
-    //Color[8] defines clear colors
+
     public static final  Color[][] COLORS = {
-        {new Color((int)0x212121),new Color((int)0x393939),new Color((int)0x070707),new Color((int)0x171717),new Color((int)0x2f2f2f)},
+        {new Color((int)0x232d55),new Color((int)0x1e254c),new Color((int)0x1e254c),new Color((int)0x1e254c),new Color((int)0x1e254c)},
         {new Color((int)0xff0000),new Color((int)0xff8888),new Color((int)0x950000),new Color((int)0xca0000),new Color((int)0xff4040)},
         {new Color((int)0xffc800),new Color((int)0xffe99d),new Color((int)0x955e00),new Color((int)0xca9300),new Color((int)0xffd955)},
         {new Color((int)0xfff200),new Color((int)0xffff9f),new Color((int)0x959500),new Color((int)0xcaca00),new Color((int)0xffff5e)},

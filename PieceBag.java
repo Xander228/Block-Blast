@@ -6,16 +6,16 @@ public class PieceBag
     
     public PieceBag()
     {
-        pieceBag = new int[7];
+        pieceBag = new int[Block.getBlockCount()];
         bagIndex = 0;
-        for (int i = 0; i < 7; i++) pieceBag[i] = i;
+        for (int i = 0; i < Block.getBlockCount(); i++) pieceBag[i] = i;
         shuffleBag();
     }
 
     public int pullNewPiece() {
         int newPiece = pieceBag[bagIndex];
         bagIndex++;
-        if (bagIndex >= 7) {
+        if (bagIndex >= Block.getBlockCount()) {
             shuffleBag();
             bagIndex = 0;
         }
@@ -25,8 +25,8 @@ public class PieceBag
     private void shuffleBag() {
         for (int i = 0; i < 30; i++) {
             int buffer = 0;
-            int index1 = (int)(Math.random() * 6);
-            int index2 = (int)(Math.random() * 6);
+            int index1 = (int)(Math.random() * (Block.getBlockCount() - 1));
+            int index2 = (int)(Math.random() * (Block.getBlockCount() - 1));
             buffer = pieceBag[index1];
             pieceBag[index1] = pieceBag[index2];
             pieceBag[index2] = buffer;
