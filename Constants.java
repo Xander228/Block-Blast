@@ -10,16 +10,19 @@ public class Constants
     
     public static final int PIECE_SIZE = 60;
     public static final int PIECE_EDGE_WIDTH = PIECE_SIZE / 7;
+    public static final int EMPTY_EDGE_WIDTH = PIECE_SIZE / 30;
+    public static final int EMPTY_EDGE_RADIUS = PIECE_SIZE / 10;
     public static final int BOARD_WIDTH = BOARD_COLS * PIECE_SIZE;
     public static final int BOARD_HEIGHT = BOARD_ROWS * PIECE_SIZE;
+    public static final double QUEUE_SCALE = 0.5;
 
     public static final int GAMEOVER_HEIGHT = 200;
     public static final int GAMEOVER_WIDTH = 300;
 
     public static final int SCORE_PANEL_HEIGHT = 40;
-    public static final int QUEUE_PANEL_HEIGHT = 100;
+    public static final int QUEUE_PANEL_HEIGHT = 160;
     
-    public static final  Color BACKGROUND_COLOR = new Color((int)0x3c5394);
+    public static final  Color BACKGROUND_COLOR = new Color((int)0x354c87);
     public static final  Color ACCENT_COLOR = new Color((int)0x373737);
 
 
@@ -27,7 +30,7 @@ public class Constants
     
 
     public static final  Color[][] COLORS = {
-        {new Color((int)0x232d55),new Color((int)0x1e254c),new Color((int)0x1e254c),new Color((int)0x1e254c),new Color((int)0x1e254c)},
+        {new Color((int)0x1d2446),new Color((int)0x171e3a),new Color((int)0x171e3a),new Color((int)0x171e3a),new Color((int)0x171e3a)},
         {new Color((int)0xff0000),new Color((int)0xff8888),new Color((int)0x950000),new Color((int)0xca0000),new Color((int)0xff4040)},
         {new Color((int)0xffc800),new Color((int)0xffe99d),new Color((int)0x955e00),new Color((int)0xca9300),new Color((int)0xffd955)},
         {new Color((int)0xfff200),new Color((int)0xffff9f),new Color((int)0x959500),new Color((int)0xcaca00),new Color((int)0xffff5e)},

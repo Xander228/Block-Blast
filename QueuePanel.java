@@ -3,7 +3,6 @@ import java.awt.*;
 
 public class QueuePanel extends JPanel {
     private PieceBag pieceBag;
-    private Block[] currentQueue;
     
     public QueuePanel() {
         // Initialize components, set layout, etc.
@@ -11,6 +10,7 @@ public class QueuePanel extends JPanel {
                                         Constants.QUEUE_PANEL_HEIGHT));
         setBackground(Constants.BACKGROUND_COLOR);
 
+        setLayout(null);
         
         pieceBag = new PieceBag();
         initializeQueue();
@@ -18,45 +18,40 @@ public class QueuePanel extends JPanel {
     }
     
     private void initializeQueue() {
-        currentQueue = new Block[Constants.QUEUE_SIZE];
 
-        for (int i = 0; i < currentQueue.length; i++) {
-            int color = (int)(Math.random() * 7);
+        for (int i = 0; i < Constants.QUEUE_SIZE; i++) {
+            int color = (int)(Math.random() * 7) + 1;
             int rotation = (int)(Math.random() * 4);
-            currentQueue[i] = new Block(pieceBag.pullNewPiece(), 0, 0, rotation, color, false);
+            add(new Block(
+                    pieceBag.pullNewPiece(),
+                    (int)(i * (Constants.BOARD_WIDTH - 160) / 2.0) + 80,
+                    Constants.QUEUE_PANEL_HEIGHT / 2,
+                    rotation,
+                    color,
+                    false,
+                    true));
         }
     }
-    
-    public Block pullFromQueue() {
-        //pulls the first piece in the queue
-        Block pulledPiece = currentQueue[0];
-        //shifts every piece down one in the queue
-        for (int i = 0; i < currentQueue.length - 1; i++) currentQueue[i] = currentQueue[i + 1];
-        //pulls a new piece from the bag to store in the last slot of the queue
-        int color = (int)(Math.random() * 7);
-        int rotation = (int)(Math.random() * 4);
-        currentQueue[currentQueue.length - 1] = new Block(pieceBag.pullNewPiece(), 0, 0, rotation, color, false);
-        this.update();
-        //return the first piece pulled from the queue
-        return pulledPiece;
-    }
+
     
     @Override 
     public void paintComponent(Graphics g) {
-        //runs code inherited from the parent class required to render the panel
-        super.paintComponent(g);
-        //creates a temporary reference variable for the current tetromino being drawn
-        Block tetromino;
-        //indexes through the currentQueue array and draws each piece
-        for(int i = 0; i < 3; i++) {
-            //get the tetromino as a given position in the queue
-            tetromino = currentQueue[i];
-            //set the coordinates of that piece based on its place in queue
-            tetromino.setPixelCoords(Constants.BOARD_WIDTH / 2, (int)i * 4 * Constants.PIECE_SIZE);
-            //draw the tetromino
-            tetromino.draw(g);
-        }
-        
+        Graphics2D g2d = (Graphics2D) g;
+        g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
+                RenderingHints.VALUE_ANTIALIAS_ON);
+        g2d.setRenderingHint(RenderingHints.KEY_RENDERING,
+                RenderingHints.VALUE_RENDER_QUALITY);
+        g2d.setRenderingHint(RenderingHints.KEY_STROKE_CONTROL,
+                RenderingHints.VALUE_STROKE_PURE);
+        g2d.setRenderingHint(RenderingHints.KEY_COLOR_RENDERING,
+                RenderingHints.VALUE_COLOR_RENDER_QUALITY);
+        g2d.setRenderingHint(RenderingHints.KEY_ALPHA_INTERPOLATION,
+                RenderingHints.VALUE_ALPHA_INTERPOLATION_QUALITY);
+        g2d.setRenderingHint(RenderingHints.KEY_DITHERING,
+                RenderingHints.VALUE_DITHER_ENABLE);
+        g2d.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING,
+                RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
+        super.paintComponent(g2d);
     }
     
     public void update() {

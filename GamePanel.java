@@ -2,7 +2,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.util.HashMap;
 
-public class GamePanel extends JPanel {
+public class GamePanel extends JLayeredPane {
 
 
     final private MatrixPanel matrixPanel; //Declare the matrixPanel
