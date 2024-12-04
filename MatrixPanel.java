@@ -68,8 +68,8 @@ public class MatrixPanel extends JPanel {
     public void  updateGhostCoords(int pixelX, int pixelY) {
         if (ghost == null) return;
         //find nearest valid boar coords
-        int boardX = pixelX / Constants.PIECE_SIZE;
-        int boardY = pixelY / Constants.PIECE_SIZE;
+        double boardX = pixelX / (double)Constants.PIECE_SIZE;
+        double boardY = pixelY / (double)Constants.PIECE_SIZE;
         //set the ghost to the new coords
         ghost.setBoardCoords(boardX, boardY);
 

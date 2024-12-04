@@ -349,8 +349,12 @@ public class Block extends JComponent {
             }
         }
     }
+
+    public boolean isValidPosition(int x, int y, int[][]board){
+        return !isOutOfBounds(x, y) && !isOverlapped(x, y, board);
+    }
     
-    private boolean isOverlapped(int x, int y, int rotation, int[][] board) {
+    private boolean isOverlapped(int x, int y, int[][] board) {
         for (int indexY = 0; indexY < 5; indexY++) {
             for (int indexX = 0; indexX < 5; indexX++) {
                 //ignores tile if no mino occupies it
@@ -379,13 +383,11 @@ public class Block extends JComponent {
         return false;
     }
 
-    public boolean isOverlapped(int x, int y, int[][] board) {
-        return isOverlapped(x, y, this.pieceRotation, board);
-    }
     public boolean isOverlapped(int[][] board) {
-        return isOverlapped(this.boardX, this.boardY, this.pieceRotation, board);
+        return isOverlapped(this.boardX, this.boardY, board);
     }
-    public boolean isOutOfBounds(int x, int y, int rotation) {
+
+    public boolean isOutOfBounds(int x, int y) {
         for (int indexY = 0; indexY < 5; indexY++) {
             for (int indexX = 0; indexX < 5; indexX++) {
                 //ignores tile if no mino occupies it
@@ -400,10 +402,7 @@ public class Block extends JComponent {
         //return false if all minos pass the test
         return false;
     }
-    
-    public boolean isOutOfBounds(int x, int y) {
-        return isOutOfBounds(x, y, this.pieceRotation);
-    }
+
 
     @Override
     public void paintComponent(Graphics g) {
