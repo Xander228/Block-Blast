@@ -17,6 +17,8 @@ public class MatrixPanel extends JPanel {
         setPreferredSize( new Dimension(Constants.BOARD_WIDTH, 
                                         Constants.BOARD_HEIGHT));
 
+
+
         board[1][1] = 3;
         board[2][1] = 4;
         board[3][1] = 5;
@@ -131,6 +133,7 @@ public class MatrixPanel extends JPanel {
                             indexY * Constants.PIECE_SIZE,
                             1,
                             board[indexX][indexY],
+                            false,
                             g);
             }   
         }

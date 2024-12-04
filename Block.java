@@ -119,18 +119,18 @@ public class Block extends JComponent {
 
     };
 
-
+    private int type;
     private int[][] pieceMap;
     private int pieceRotation;
     private int color;
     
     private boolean ghost;
+    private Block ghostBlock;
     private boolean scaled;
     private double offsetX, offsetY;
     private int boardX, boardY;
+    private int homeX, homeY;
     private int pixelX, pixelY;
-
-    private int spawnX, spawnY;
 
     private int mouseX, mouseY;
     private double startX, startY;
@@ -141,6 +141,7 @@ public class Block extends JComponent {
     
     //type is a number 0 - 6 that refers to the type of tetromino
     public Block(int type, int x, int y, int pieceRotation, int color, boolean ghost, boolean scaled) {
+        this.type = type;
         this.color = color;
         this.pieceRotation = pieceRotation;
         this.scaled = scaled;
@@ -176,8 +177,6 @@ public class Block extends JComponent {
 
         this.ghost = ghost;
 
-        spawnX = x;
-        spawnY = y;
         setPixelCoords(x, y);
         visible = true;
 
@@ -186,6 +185,8 @@ public class Block extends JComponent {
             public void run() {
                 setPixelCoords(pixelX, pixelY);
                 addListeners();
+                homeX = pixelX;
+                homeY = pixelY;
             }
         });
 
@@ -206,28 +207,42 @@ public class Block extends JComponent {
 
                 dragging = true;
                 scaled = false;
+                GamePanel gamePanel = MainFrame.getGamePanel();
+                JPanel queuePanel = gamePanel.getQueuePanel();
 
-                int diffX = (int)getParent().getLocationOnScreen().getX() -
-                        (int) getParent().getParent().getLocationOnScreen().getX();
-                int diffY = (int)getParent().getLocationOnScreen().getY() -
-                        (int)getParent().getParent().getLocationOnScreen().getY();
+                int diffX = (int)queuePanel.getLocationOnScreen().getX() -
+                        (int) gamePanel.getLocationOnScreen().getX();
+                int diffY = (int)queuePanel.getLocationOnScreen().getY() -
+                        (int)gamePanel.getLocationOnScreen().getY();
 
                 startX += diffX;
                 startY += diffY;
 
-                getParent().getParent().add(Block.this, 0);
-                getParent().repaint();
+                gamePanel.add(Block.this, 0);
+                queuePanel.repaint();
 
                 int newX = (int) startX;
                 int newY = (int) startY;
 
                 setPixelCoords(newX, newY);
 
+                boardX = newX - gamePanel.getMatrixPanel().getX();
+                boardY = newY - gamePanel.getMatrixPanel().getY();
+
+                ghostBlock = new Block(type, boardX, boardY, pieceRotation, color, true, false);
+                gamePanel.getMatrixPanel().add(ghostBlock);
             }
             @Override
             public void mouseReleased(MouseEvent e) {
                 if(e.getButton() != MouseEvent.BUTTON1) return;
                 dragging = false;
+                GamePanel gamePanel = MainFrame.getGamePanel();
+                JPanel queuePanel = gamePanel.getQueuePanel();
+                queuePanel.add(Block.this, 0);
+                scaled = true;
+                setPixelCoords(homeX, homeY);
+                queuePanel.repaint();
+                gamePanel.repaint();
 
             }
 
@@ -247,6 +262,16 @@ public class Block extends JComponent {
                 int newY = (int) startY + deltaY;
 
                 setPixelCoords(newX, newY);
+
+                GamePanel gamePanel = MainFrame.getGamePanel();
+
+                int diffX = (int)gamePanel.getMatrixPanel().getLocationOnScreen().getX() -
+                        (int) gamePanel.getLocationOnScreen().getX();
+                int diffY = (int)gamePanel.getMatrixPanel().getLocationOnScreen().getY() -
+                        (int)gamePanel.getLocationOnScreen().getY();
+                int boardX = (int)Math.round((newX - diffX) / (double)Constants.PIECE_SIZE - offsetX -.5);
+                int boardY = (int)Math.round((newY - diffY) / (double)Constants.PIECE_SIZE - offsetX -.5);
+                ghostBlock.setBoardCoords(boardX, boardY);
             }
         });
 
@@ -282,14 +307,17 @@ public class Block extends JComponent {
     public void setBoardCoords(int x, int y) {
         this.boardX = x;
         this.boardY = y;
-        
-        updatePixelCoords();
+
+        this.pixelX = x * Constants.PIECE_SIZE;
+        this.pixelY = y * Constants.PIECE_SIZE;
+
+        setBounds(
+                x * Constants.PIECE_SIZE,
+                y * Constants.PIECE_SIZE,
+                Constants.PIECE_SIZE * 5,
+                Constants.PIECE_SIZE * 5);
     }
-    
-    public void updatePixelCoords() {
-        this.pixelX = Constants.PIECE_SIZE * this.boardX;
-        this.pixelY = Constants.PIECE_SIZE * this.boardY;
-    }
+
 
     public void lock(int[][] board) {
         for (int indexY = 0; indexY < 5; indexY++) {
@@ -394,6 +422,7 @@ public class Block extends JComponent {
                         (int)(indexY * Constants.PIECE_SIZE * scale),
                         scale,
                         color,
+                        ghost,
                         g2d);
             }
         }

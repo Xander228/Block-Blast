@@ -3,7 +3,7 @@ import java.awt.event.*;
 import java.util.HashMap;
 
 public class MainFrame extends JFrame {
-    private GamePanel gamePanel; //Declare the gamePanel
+    private static GamePanel gamePanel; //Declare the gamePanel
 
 
     //TetrisFrame constructor
@@ -14,8 +14,11 @@ public class MainFrame extends JFrame {
         setResizable(false); //sets the frame to a fixed size, not resizeable by a user
 
         //GamePanel is a panel within the frame that contains sub panels related to gameplay
+        JPanel backgroundPanel = new JPanel(); //Create the BackgroundPanel object
+        backgroundPanel.setBackground(Constants.BACKGROUND_COLOR); //Set the background color of the panel
         gamePanel = new GamePanel(); //Create new gamePanel object
-        add(gamePanel); //Adds the gamePanel object to the frame
+        backgroundPanel.add(gamePanel); //Add the gamePanel object to the backgroundPanel
+        add(backgroundPanel); //Add the backgroundPanel to the frame
         pack(); //Resizes the frame to fit the gamePanel
 
         //Set the frame focusable for KeyListener, allowing it to accept key inputs when in focus
@@ -36,6 +39,10 @@ public class MainFrame extends JFrame {
         gamePanel = new GamePanel(); //Replaces the existing gamePanel object with the new one
         this.add(gamePanel); //Re-adds the new gamePanel object to the frame
         pack(); //Ensures that the new gamePanel is at its desired size and removes old panel
+    }
+
+    static GamePanel getGamePanel(){
+        return gamePanel;
     }
 
     //Main method

@@ -23,8 +23,8 @@ public class Constants
     public static final int QUEUE_PANEL_HEIGHT = 160;
     
     public static final  Color BACKGROUND_COLOR = new Color((int)0x354c87);
-    public static final  Color ACCENT_COLOR = new Color((int)0x373737);
-
+    public static final  Color ACCENT_COLOR = new Color((int)0x171e3a);
+    public static final  Color ACCENT_COLOR_2 = new Color((int)0x293669);
 
     public static final  Color PRIMARY_COLOR = new Color((int)0xFFFFFF);
     
