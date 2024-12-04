@@ -17,8 +17,6 @@ public class MatrixPanel extends JPanel {
         setPreferredSize( new Dimension(Constants.BOARD_WIDTH, 
                                         Constants.BOARD_HEIGHT));
 
-        ghost = new Block(0, 0, 0, 0, 0, true, false);
-        ghost.hide();
 
 
 
@@ -54,17 +52,28 @@ public class MatrixPanel extends JPanel {
     }
 
     public void setGhost(Block block) {
-        ghost.setBoardCoords(block.getBoardX(), block.getBoardY());
-        
-        ghost.setVisible(true);
+        removeAll();
+        ghost = block;
+        add(ghost);
     }
 
-    public void lockBlock() {
+    public boolean tryLock() {
         ghost.lock(board);
-        ghost.setVisible(false);
+        remove(ghost);
+        ghost = null;
+
+        return true;
     }
 
-    public void  updateGhost()
+    public void  updateGhostCoords(int pixelX, int pixelY) {
+        if (ghost == null) return;
+        //find nearest valid boar coords
+        int boardX = pixelX / Constants.PIECE_SIZE;
+        int boardY = pixelY / Constants.PIECE_SIZE;
+        //set the ghost to the new coords
+        ghost.setBoardCoords(boardX, boardY);
+
+    }
 
     public boolean identifyRows(){
         boolean rowsToClear = false;

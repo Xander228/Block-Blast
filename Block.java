@@ -124,10 +124,10 @@ public class Block extends JComponent {
     private int pieceRotation;
     private int color;
     
-    private boolean ghost;
+    private final boolean ghost;
     private Block ghostBlock;
     private boolean scaled;
-    private double offsetX, offsetY;
+    private final double offsetX, offsetY;
     private int boardX, boardY;
     private int homeX, homeY;
     private int pixelX, pixelY;
@@ -136,9 +136,6 @@ public class Block extends JComponent {
     private double startX, startY;
     private boolean dragging;
 
-
-    private boolean visible;
-    
     //type is a number 0 - 6 that refers to the type of tetromino
     public Block(int type, int x, int y, int pieceRotation, int color, boolean ghost, boolean scaled) {
         this.type = type;
@@ -178,7 +175,7 @@ public class Block extends JComponent {
         this.ghost = ghost;
 
         setPixelCoords(x, y);
-        visible = true;
+        setVisible(true);
 
 
         EventQueue.invokeLater(new Runnable() {
@@ -194,7 +191,7 @@ public class Block extends JComponent {
 
 
     private void addListeners(){
-
+        if(ghost) return;
         addMouseListener(new MouseAdapter() {
             @Override
             public void mousePressed(MouseEvent e) {
@@ -230,14 +227,24 @@ public class Block extends JComponent {
                 boardY = newY - gamePanel.getMatrixPanel().getY();
 
                 ghostBlock = new Block(type, boardX, boardY, pieceRotation, color, true, false);
-                gamePanel.getMatrixPanel().add(ghostBlock);
+                gamePanel.getMatrixPanel().setGhost(ghostBlock);
             }
             @Override
             public void mouseReleased(MouseEvent e) {
                 if(e.getButton() != MouseEvent.BUTTON1) return;
                 dragging = false;
+
                 GamePanel gamePanel = MainFrame.getGamePanel();
                 JPanel queuePanel = gamePanel.getQueuePanel();
+
+                if(gamePanel.getMatrixPanel().tryLock()){
+                    gamePanel.remove(Block.this);
+                    removeAllListeners();
+                    queuePanel.repaint();
+                    gamePanel.repaint();
+                    return;
+                }
+
                 queuePanel.add(Block.this, 0);
                 scaled = true;
                 setPixelCoords(homeX, homeY);
@@ -269,15 +276,22 @@ public class Block extends JComponent {
                         (int) gamePanel.getLocationOnScreen().getX();
                 int diffY = (int)gamePanel.getMatrixPanel().getLocationOnScreen().getY() -
                         (int)gamePanel.getLocationOnScreen().getY();
-                int boardX = (int)Math.round((newX - diffX) / (double)Constants.PIECE_SIZE - offsetX -.5);
-                int boardY = (int)Math.round((newY - diffY) / (double)Constants.PIECE_SIZE - offsetX -.5);
-                ghostBlock.setBoardCoords(boardX, boardY);
+                int boardPixelX = (int)((newX - diffX) - (offsetX -.5) * Constants.PIECE_SIZE);
+                int boardPixelY = (int)((newY - diffY) - (offsetY -.5) * Constants.PIECE_SIZE);
+                gamePanel.getMatrixPanel().updateGhostCoords(boardPixelX, boardPixelY);
             }
         });
 
     }
 
-
+    private void removeAllListeners() {
+        for(MouseListener listener : getMouseListeners()){
+            removeMouseListener(listener);
+        }
+        for(MouseMotionListener listener : getMouseMotionListeners()){
+            removeMouseMotionListener(listener);
+        }
+    }
 
 
     private int[][] rotateMatrix(int[][] pieceMap) {
@@ -330,16 +344,10 @@ public class Block extends JComponent {
     public void lock(int[][] board) {
         for (int indexY = 0; indexY < 5; indexY++) {
             for (int indexX = 0; indexX < 5; indexX++) {
-                int cell = pieceMap[indexY][indexX];
-                if (cell == 0) continue;
-                board[boardX + indexX][boardY + indexY] = cell;
+                if (pieceMap[indexY][indexX] == 0) continue;
+                board[boardX + indexX][boardY + indexY] = color;
             }
         }
-    }
-    
-    public void setGhost(boolean ghost) {
-        this.ghost = ghost;
-        pieceRotation = 0;
     }
     
     private boolean isOverlapped(int x, int y, int rotation, int[][] board) {
@@ -416,7 +424,6 @@ public class Block extends JComponent {
                 RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
         super.paintComponent(g2d);
 
-        if (!visible) return;
         double scale = scaled ? Constants.QUEUE_SCALE : 1.0;
         for (int indexY = 0; indexY < 5; indexY++) {
             for (int indexX = 0; indexX < 5; indexX++) {
