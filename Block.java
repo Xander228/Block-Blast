@@ -290,6 +290,14 @@ public class Block extends JComponent {
         return rotatedMatrix;
     }
 
+    public int getBoardX() {
+        return boardX;
+    }
+
+    public int getBoardY() {
+        return boardY;
+    }
+
     public static int getBlockCount() {
         return blocks.length;
     }
@@ -387,10 +395,6 @@ public class Block extends JComponent {
     
     public boolean isOutOfBounds(int x, int y) {
         return isOutOfBounds(x, y, this.pieceRotation);
-    }
-
-    public void hide() {
-        visible = false;
     }
 
     @Override

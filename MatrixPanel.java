@@ -6,7 +6,7 @@ public class MatrixPanel extends JPanel {
     private int[][] board = new int[Constants.BOARD_COLS][Constants.TOTAL_BOARD_ROWS];
     
     //Create object variable to hold the current piece in hand
-    private Block block;
+    private Block ghost;
 
     //Create a counter to count the number of gameLoops elapsed since the last drop
 
@@ -17,6 +17,9 @@ public class MatrixPanel extends JPanel {
         setPreferredSize( new Dimension(Constants.BOARD_WIDTH, 
                                         Constants.BOARD_HEIGHT));
 
+        ghost = new Block(0, 0, 0, 0, 0, true, false);
+        ghost.hide();
+
 
 
         board[1][1] = 3;
@@ -26,23 +29,6 @@ public class MatrixPanel extends JPanel {
         board[1][2] = 7;
         board[2][2] = 1;
         board[3][2] = 2;
-    }
-
-
-
-    public Block getPiece() {
-        return this.block;
-    }
-
-    public void setPiece(Block tetromino) {
-        this.block = tetromino;
-        this.block.setGhost(true);
-        this.block.setBoardCoords(5, -2);
-        int i = -1;
-        while(tetromino.isOverlapped(board)) {
-            tetromino.setBoardCoords(5, -2 + i);
-            i--;
-        }
     }
 
     @Override
@@ -67,11 +53,18 @@ public class MatrixPanel extends JPanel {
         this.drawBoard(g2d);
     }
 
-    public void lockTetromino() {
-        block.lock(board);
-        block.hide();
+    public void setGhost(Block block) {
+        ghost.setBoardCoords(block.getBoardX(), block.getBoardY());
+        
+        ghost.setVisible(true);
     }
 
+    public void lockBlock() {
+        ghost.lock(board);
+        ghost.setVisible(false);
+    }
+
+    public void  updateGhost()
 
     public boolean identifyRows(){
         boolean rowsToClear = false;
