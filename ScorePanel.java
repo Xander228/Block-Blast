@@ -7,6 +7,11 @@ public class ScorePanel extends JPanel {
     private final JLabel lineLabel;
     private final JLabel comboLabel;
 
+    private int score;
+    private int lines;
+    private int combo;
+    private int comboCounter;
+
     public ScorePanel() {
         // Initialize components, set layout, etc.
         setPreferredSize( new Dimension(Constants.BOARD_WIDTH,
@@ -32,11 +37,35 @@ public class ScorePanel extends JPanel {
         add(comboLabel, BorderLayout.CENTER);
         add(lineLabel, BorderLayout.EAST);
 
+        this.update();
+    }
 
-        this.update(0,0,1);
+    public void addScore(int score) {
+        this.score += score;
+        this.update();
+    }
+
+    public void addLines(int lines) {
+        this.lines += lines;
+        int lineMultiplier = 10 * Math.max(lines - 1, 1);
+        int comboMultiplier = 1 + combo;
+        this.score += lines * lineMultiplier * comboMultiplier;
+
+        if(lines == 0) {
+            comboCounter--;
+            if (comboCounter <= 0) {
+                comboCounter = 0;
+                combo = 0;
+            }
+        } else {
+            comboCounter = 3;
+            combo++;
+        }
+
+        this.update();
     }
     
-    public void update(int score, int lines, int combo) {
+    public void update() {
         scoreLabel.setText("Score: " + score);
         lineLabel.setText("Lines: " + lines);
         comboLabel.setText("Combo: " + combo);

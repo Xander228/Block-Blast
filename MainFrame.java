@@ -30,7 +30,7 @@ public class MainFrame extends JFrame {
 
     //Gets the scores and creates a game over object to display the GameOverPanel, then stops the game timer
     private void gameOver(){
-        int[] scores = gamePanel.getScores(); //Gets an array of the scores from the gamePanel
+        int[] scores = new int[3]; //Gets an array of the scores from the gamePanel
         new GameOver(this, scores[0], scores[1], scores[2]); //Creates the GameOver object which displays the scores and end options
     }
 

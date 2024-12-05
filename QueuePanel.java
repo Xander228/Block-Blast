@@ -18,13 +18,12 @@ public class QueuePanel extends JPanel {
     }
     
     private void initializeQueue() {
-
         for (int i = 0; i < Constants.QUEUE_SIZE; i++) {
             int color = (int)(Math.random() * 7) + 1;
             int rotation = (int)(Math.random() * 4);
             add(new Block(
                     pieceBag.pullNewPiece(),
-                    (int)(i * (Constants.BOARD_WIDTH - 160) / 2.0) + 80,
+                    (int)(i * (Constants.BOARD_WIDTH - 160) / (Constants.QUEUE_SIZE - 1.0)) + 80,
                     Constants.QUEUE_PANEL_HEIGHT / 2,
                     rotation,
                     color,
@@ -33,6 +32,22 @@ public class QueuePanel extends JPanel {
         }
     }
 
+    public void update() {
+        if(getComponentCount() != 0) return;
+        for (int i = 0; i < Constants.QUEUE_SIZE; i++) {
+            int color = (int)(Math.random() * 7) + 1;
+            int rotation = (int)(Math.random() * 4);
+            add(new Block(
+                    pieceBag.pullNewPiece(),
+                    (int)(i * (Constants.BOARD_WIDTH - 160) / (Constants.QUEUE_SIZE - 1.0)) + 80,
+                    Constants.QUEUE_PANEL_HEIGHT / 2,
+                    rotation,
+                    color,
+                    false,
+                    true));
+        }
+        repaint();
+    }
     
     @Override 
     public void paintComponent(Graphics g) {
@@ -53,8 +68,5 @@ public class QueuePanel extends JPanel {
                 RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
         super.paintComponent(g2d);
     }
-    
-    public void update() {
-        repaint();
-    }
+
 }

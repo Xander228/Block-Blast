@@ -223,10 +223,8 @@ public class Block extends JComponent {
 
                 setPixelCoords(newX, newY);
 
-                boardX = newX - gamePanel.getMatrixPanel().getX();
-                boardY = newY - gamePanel.getMatrixPanel().getY();
-
-                ghostBlock = new Block(type, boardX, boardY, pieceRotation, color, true, false);
+                ghostBlock = new Block(type, 0, 0, pieceRotation, color, true, false);
+                ghostBlock.setBoardCoords(Constants.BOARD_COLS + 3, Constants.BOARD_ROWS + 3);
                 gamePanel.getMatrixPanel().setGhost(ghostBlock);
             }
             @Override
@@ -235,22 +233,22 @@ public class Block extends JComponent {
                 dragging = false;
 
                 GamePanel gamePanel = MainFrame.getGamePanel();
-                JPanel queuePanel = gamePanel.getQueuePanel();
+                QueuePanel queuePanel = gamePanel.getQueuePanel();
 
                 if(gamePanel.getMatrixPanel().tryLock()){
                     gamePanel.remove(Block.this);
                     removeAllListeners();
+                    queuePanel.update();
+                    gamePanel.repaint();
+                }
+                else {
+                    queuePanel.add(Block.this, 0);
+                    scaled = true;
+                    setPixelCoords(homeX, homeY);
                     queuePanel.repaint();
                     gamePanel.repaint();
-                    return;
+
                 }
-
-                queuePanel.add(Block.this, 0);
-                scaled = true;
-                setPixelCoords(homeX, homeY);
-                queuePanel.repaint();
-                gamePanel.repaint();
-
             }
 
         });
@@ -276,8 +274,8 @@ public class Block extends JComponent {
                         (int) gamePanel.getLocationOnScreen().getX();
                 int diffY = (int)gamePanel.getMatrixPanel().getLocationOnScreen().getY() -
                         (int)gamePanel.getLocationOnScreen().getY();
-                int boardPixelX = (int)((newX - diffX) - (offsetX -.5) * Constants.PIECE_SIZE);
-                int boardPixelY = (int)((newY - diffY) - (offsetY -.5) * Constants.PIECE_SIZE);
+                int boardPixelX = (int)((newX - diffX) - (offsetX + .5) * Constants.PIECE_SIZE);
+                int boardPixelY = (int)((newY - diffY) - (offsetY + .5) * Constants.PIECE_SIZE);
                 gamePanel.getMatrixPanel().updateGhostCoords(boardPixelX, boardPixelY);
             }
         });
@@ -316,6 +314,22 @@ public class Block extends JComponent {
         return blocks.length;
     }
 
+    public int getColor() {
+        return color;
+    }
+
+    public int getType() {
+        return type;
+    }
+
+    public int getPieceRotation() {
+        return pieceRotation;
+    }
+
+    public int[][] getPieceMap() {
+        return pieceMap;
+    }
+
     public void setPixelCoords(int x, int y) {
         this.pixelX = x;
         this.pixelY = y;
@@ -352,6 +366,10 @@ public class Block extends JComponent {
 
     public boolean isValidPosition(int x, int y, int[][]board){
         return !isOutOfBounds(x, y) && !isOverlapped(x, y, board);
+    }
+
+    public boolean isValidPosition(int[][] board) {
+        return !isOutOfBounds(boardX, boardY) && !isOverlapped(board);
     }
     
     private boolean isOverlapped(int x, int y, int[][] board) {
@@ -394,9 +412,10 @@ public class Block extends JComponent {
                 if (pieceMap[indexY][indexX] == 0) continue;
                 
                 //if a mino exists, return true if it is outside the left right or bottom bounds
-                if (x + indexX < 0 || 
+                if (x + indexX < 0 ||
+                    y + indexY < 0 ||
                     x + indexX > Constants.BOARD_COLS - 1 || 
-                    y + indexY > Constants.TOTAL_BOARD_ROWS - 1) return true;
+                    y + indexY > Constants.BOARD_ROWS - 1) return true;
             }
         }
         //return false if all minos pass the test

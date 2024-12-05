@@ -10,11 +10,6 @@ public class GamePanel extends JLayeredPane {
     final private MatrixPanel matrixPanel; //Declare the matrixPanel
     final private ScorePanel scorePanel;
     final private QueuePanel queuePanel;
-    private boolean hasSwap; //Declare the hasSwap variable
-
-    private int score; //Declare the score variable
-    private int lines; //Declare the lines variable
-    private int level; //Declare the level variable
 
     private class RoundedBorder extends AbstractBorder {
         private final Color color;
@@ -56,24 +51,23 @@ public class GamePanel extends JLayeredPane {
         queuePanel = new QueuePanel();
 
         //Set up the panel properties
-        setBorder(BorderFactory.createMatteBorder(10, 10, 10, 10, Constants.BACKGROUND_COLOR)); //Add a border around the frame
-        setBackground(Constants.BACKGROUND_COLOR); //Set the background color of the panel
-        setLayout(new BorderLayout(10, 10)); //Sets the edge offset of member panels to properly space them
 
+        setLayout(new OverlayLayout(this));
+
+        JPanel innerPanel = new JPanel();
+        innerPanel.setLayout(new BorderLayout(10, 10));
+        innerPanel.setBackground(Constants.BACKGROUND_COLOR);
+        innerPanel.setBorder(BorderFactory.createMatteBorder(10, 10, 10, 10, Constants.BACKGROUND_COLOR));
         // Add the matrixPanel and piecePanel to the panel
         JPanel outerBoardPanel = new JPanel();
         outerBoardPanel.setBorder(
                 new RoundedBorder(Constants.ACCENT_COLOR, Constants.ACCENT_COLOR_2));
         outerBoardPanel.setBackground(Constants.BACKGROUND_COLOR);
         outerBoardPanel.add(matrixPanel, BorderLayout.CENTER);
-        add(outerBoardPanel); //Adds the matrixPanel object to the center of the parent panel
-        add(scorePanel, BorderLayout.NORTH);
-        add(queuePanel, BorderLayout.SOUTH);
-
-        score = 0; //Initializes the score to 0
-        lines = 0; //Initializes the lines to 0
-        level = 1; //Initializes the level to 1
-        this.hasSwap = false; //Initializes the hasSwap to false
+        innerPanel.add(outerBoardPanel); //Adds the matrixPanel object to the center of the parent panel
+        innerPanel.add(scorePanel, BorderLayout.NORTH);
+        innerPanel.add(queuePanel, BorderLayout.SOUTH);
+        add(innerPanel, 0); //Adds the piecePanel object to the bottom of the parent panel
     }
 
     MatrixPanel getMatrixPanel(){
@@ -86,12 +80,6 @@ public class GamePanel extends JLayeredPane {
 
     QueuePanel getQueuePanel(){
         return queuePanel;
-    }
-
-
-
-    public int[] getScores(){
-        return new int[]{score, lines, level};
     }
 
 }

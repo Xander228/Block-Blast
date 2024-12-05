@@ -79,8 +79,18 @@ public class Draw
         g.fillPolygon(new int[]{x + pieceSize - pixelInset, x + pieceSize - pieceEdgeWidth, x + pieceSize - pixelInset},
                 new int[]{y + pieceSize - pixelInset, y + pieceSize - pieceEdgeWidth, y + pieceEdgeWidth}, 3);
 
+    }
 
-
+    public static void glow(int x, int y, int color, Graphics2D g){
+        int offset = 3;
+        g.setColor(Constants.COLORS[color][1]);
+        g.fillRect(x - offset, y - offset, Constants.PIECE_SIZE + offset * 2, Constants.PIECE_SIZE + offset * 2);
+        offset = 2;
+        g.setColor(Constants.COLORS[color][4]);
+        g.fillRect(x - offset, y - offset, Constants.PIECE_SIZE + offset * 2, Constants.PIECE_SIZE + offset * 2);
+        offset = 1;
+        g.setColor(Constants.COLORS[color][0]);
+        g.fillRect(x - offset, y - offset, Constants.PIECE_SIZE + offset * 2, Constants.PIECE_SIZE + offset * 2);
 
     }
 
