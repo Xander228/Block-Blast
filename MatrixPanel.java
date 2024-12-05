@@ -67,11 +67,39 @@ public class MatrixPanel extends JPanel {
 
     public void  updateGhostCoords(int pixelX, int pixelY) {
         if (ghost == null) return;
-        //find nearest valid boar coords
-        double boardX = pixelX / (double)Constants.PIECE_SIZE;
-        double boardY = pixelY / (double)Constants.PIECE_SIZE;
-        //set the ghost to the new coords
-        ghost.setBoardCoords(boardX, boardY);
+
+        double boardPixelX = pixelX / (double)Constants.PIECE_SIZE;
+        double boardPixelY = pixelY / (double)Constants.PIECE_SIZE;
+
+        int boardX = (int)Math.round(boardPixelX);
+        int boardY = (int)Math.round(boardPixelY);
+        int nextClosestX = boardPixelX - boardX > 0 ? boardX + 1 : boardX - 1;
+        int nextClosestY = boardPixelY - boardY > 0 ? boardY + 1 : boardY - 1;
+        int otherClosestX = boardPixelX - boardX > 0 ? boardX - 1 : boardX + 1;
+        int otherClosestY = boardPixelY - boardY > 0 ? boardY - 1 : boardY + 1;
+
+        if (ghost.isValidPosition(boardX, boardY, board)) {
+            ghost.setBoardCoords(boardX, boardY);
+            return;
+        }
+        
+        if (ghost.isValidPosition(nextClosestX, nextClosestY, board)) {
+            ghost.setBoardCoords(nextClosestX, nextClosestY);
+            return;
+        }
+        if (ghost.isValidPosition(otherClosestX, nextClosestY, board)) {
+            ghost.setBoardCoords(otherClosestX, otherClosestY);
+            return;
+        }
+        if (ghost.isValidPosition(nextClosestX, otherClosestY, board)) {
+            ghost.setBoardCoords(nextClosestX, otherClosestY);
+            return;
+        }
+        if (ghost.isValidPosition(otherClosestX, otherClosestY, board)) {
+            ghost.setBoardCoords(otherClosestX, otherClosestY);
+            return;
+        }
+
 
     }
 
