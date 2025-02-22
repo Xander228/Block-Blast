@@ -26,18 +26,18 @@ public class Constants
     public static final  Color ACCENT_COLOR_2 = new Color((int)0x293669);
 
     public static final  Color PRIMARY_COLOR = new Color((int)0xFFFFFF);
-    
 
-    public static final  Color[][] COLORS = {
-        {new Color((int)0x1d2446),new Color((int)0x171e3a),new Color((int)0x171e3a),new Color((int)0x171e3a),new Color((int)0x171e3a)},
-        {new Color((int)0xff0000),new Color((int)0xff8888),new Color((int)0x950000),new Color((int)0xca0000),new Color((int)0xff4040)},
-        {new Color((int)0xffc800),new Color((int)0xffe99d),new Color((int)0x955e00),new Color((int)0xca9300),new Color((int)0xffd955)},
-        {new Color((int)0xfff200),new Color((int)0xffff9f),new Color((int)0x959500),new Color((int)0xcaca00),new Color((int)0xffff5e)},
-        {new Color((int)0x00ff00),new Color((int)0xa6ffa6),new Color((int)0x009500),new Color((int)0x00ca00),new Color((int)0x77ff77)},
-        {new Color((int)0x00ffff),new Color((int)0xaeffff),new Color((int)0x009595),new Color((int)0x00caca),new Color((int)0x77ffff)},
-        {new Color((int)0x0000ff),new Color((int)0x8a8aff),new Color((int)0x000095),new Color((int)0x0000ca),new Color((int)0x4646ff)},
-        {new Color((int)0xff00ff),new Color((int)0xff93ff),new Color((int)0x950095),new Color((int)0xca00ca),new Color((int)0xff5eff)},
-        {new Color((int)0xf2f2f2),new Color((int)0xffffff),new Color((int)0x959595),new Color((int)0xcacaca),new Color((int)0xdddddd)},
+
+    public static final Color[][] COLORS = {
+            {new Color((int)0x1d2446),new Color((int)0x171e3a),new Color((int)0x171e3a),new Color((int)0x171e3a),new Color((int)0x171e3a)},
+            {new Color((int)0xce3736),new Color((int)0xef7d7b),new Color((int)0x841c21),new Color((int)0xde4943),new Color((int)0xb52829)},
+            {new Color((int)0xf78229),new Color((int)0xffb87b),new Color((int)0x954508),new Color((int)0xff9242),new Color((int)0xc66118)},
+            {new Color((int)0xefc239),new Color((int)0xffe373),new Color((int)0xad7118),new Color((int)0xffd345),new Color((int)0xc69618)},
+            {new Color((int)0x46cc3e),new Color((int)0x84ef9c),new Color((int)0x086d29),new Color((int)0x4adf4a),new Color((int)0x299e31)},
+            {new Color((int)0x42bfef),new Color((int)0x94e9ff),new Color((int)0x0069a5),new Color((int)0x52d7ff),new Color((int)0x2196d6)},
+            {new Color((int)0x4266e7),new Color((int)0x82acfd),new Color((int)0x21348c),new Color((int)0x4271f7),new Color((int)0x294dce)},
+            {new Color((int)0x945dd6),new Color((int)0xd69af7),new Color((int)0x52217b),new Color((int)0xa569de),new Color((int)0x733d9c)},
+            {new Color((int)0xf2f2f2),new Color((int)0xffffff),new Color((int)0x959595),new Color((int)0xcacaca),new Color((int)0xdddddd)},
     };
     
 }
