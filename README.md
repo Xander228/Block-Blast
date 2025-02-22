@@ -6,7 +6,7 @@ This Java Swing game features gameplay similar to the new hit mobile game Block 
 ## Features
 - **Gameplay**: Drag blocks to complete rows or columns
 - **Score Tracking**: The score is updated in real-time, based on the number of lines cleared and the combo multiplier.
-- **Combo System**: Clear multiple lines in quick succession to gain a combo bonus.
+- **Combo System**: Clear multiple lines in quick succession to gain a combo bonus. To keep a combo you must clear another piece before your 3rd placement.
 
 
 ### Controls
